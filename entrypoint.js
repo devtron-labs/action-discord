@@ -33,8 +33,8 @@ _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 let url;
 let payload;
 let postPayload;
-let PR_Link;
-let PR_title;
+let issue_link;
+let issue_title;
 
 if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   // If argument and embeds NOT provided, let Discord show the event informations.
@@ -44,10 +44,9 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   postPayload = JSON.stringify(JSON.parse(eventContent));
 } else {
   // Otherwise, if the argument or embeds are provided, let Discord override the message.
-  PR_Link = argv._.slice(-1)[0] + "#";
-  PR_title = argv._.slice(0, -1).join(' ');
-  const args = argv._.join(' ');
-  const message = _.template(args)({ ...process.env, EVENT_PAYLOAD: JSON.parse(eventContent) });
+  issue_link = argv._.slice(-1)[0] + "#";
+  issue_title = argv._.slice(0, -1).join(' ');
+  const message = "[ ** "+issue_title+"** ]("+issue_link+")";
 
   let embedsObject;
   if (process.env.DISCORD_EMBEDS) {
@@ -68,8 +67,8 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
     ...process.env.DISCORD_AVATAR && { avatar_url: process.env.DISCORD_AVATAR },
   });
   postPayload = JSON.stringify({
-    content: PR_Link,
-    thread_name: PR_title,
+    content: issue_link,
+    thread_name: issue_title,
     thread_type: 10, // this creates a new thread in a forum channel
    // channel_id: process.env.DISCORD_FORUM_CHANNEL_ID,
     ...process.env.DISCORD_EMBEDS && { embeds: embedsObject },
