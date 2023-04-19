@@ -39,7 +39,7 @@ let issue_title;
 if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   // If argument and embeds NOT provided, let Discord show the event informations.
   url = `${process.env.DISCORD_WEBHOOK}/github`;
-  payload_url = `${process.env.DISCORD_WEBHOOK_FORUM}`;
+  payload_url = `${process.env.DISCORD_WEBHOOK_FORUM}/github`;
   payload = JSON.stringify(JSON.parse(eventContent));
   postPayload = JSON.stringify(JSON.parse(eventContent));
 } else {
@@ -84,7 +84,7 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   console.log("sending ");
   if (process.env.ENABLE_FORUM === "true" ){
     console.log(' post ...');
-    axios.post(
+    await axios.post(
       `${payload_url}?wait=true`,
       postPayload,
       {
