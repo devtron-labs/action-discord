@@ -33,7 +33,6 @@ _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
 let url;
 let payload;
-let payload_url;
 let postPayload;
 let issue_link;
 let issue_title;
@@ -41,12 +40,12 @@ let issue_title;
 if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   // If argument and embeds NOT provided, let Discord show the event informations.
   url = `${process.env.DISCORD_WEBHOOK}/github`;
-  payload_url = `${process.env.DISCORD_WEBHOOK_FORUM}`;
+  payload_url = `${process.env.DISCORD_WEBHOOK_FORUM}/github`;
   payload = JSON.stringify(JSON.parse(eventContent));
   postPayload = JSON.stringify(JSON.parse(eventContent));
 } else {
   // Otherwise, if the argument or embeds are provided, let Discord override the message.
-  issue_link = argv._.slice(-1)[0] ;
+  issue_link = argv._.slice(-1)[0] + "#";
   issue_title = argv._.slice(0, -1).join(' ');
   const message = "[ ** "+issue_title+"** ]("+issue_link+")";
 
@@ -98,8 +97,7 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
         },
       },
     );
-    console.log('Post sent ! Shutting down ...');
-    process.exit(0);
+      console.log('Post sent ! Shutting down ...');
   }else{
     console.log(' message ...');
     await axios.post(
