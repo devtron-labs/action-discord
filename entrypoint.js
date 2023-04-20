@@ -2,7 +2,6 @@ const axios = require('axios');
 const fs = require('fs');
 const _ = require('lodash');
 const { argv } = require('yargs');
-var CryptoJS = require("crypto-js");
 
 const REQUIRED_ENV_VARS = [
   'GITHUB_EVENT_PATH',
@@ -61,8 +60,6 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
 
   url = process.env.DISCORD_WEBHOOK;
   payload_url = process.env.DISCORD_WEBHOOK_FORUM;
-  var md5 = CryptoJS.MD5(payload_url);
-  console.log(md5.toString());
   payload = JSON.stringify({
     content: message,
     ...process.env.DISCORD_EMBEDS && { embeds: embedsObject },
