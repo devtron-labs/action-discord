@@ -58,6 +58,11 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
      }
   }
 
+  //trimming the issue title to 100 characters as more than that is not allowed
+  if (issue_title.length > 100) {
+    issue_title = `${issue_title.slice(0, 97)}...`
+  }
+
   url = process.env.DISCORD_WEBHOOK;
   payload_url = process.env.DISCORD_WEBHOOK_FORUM;
   payload = JSON.stringify({
@@ -84,7 +89,7 @@ if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
   console.log("sending ");
   if (process.env.ENABLE_FORUM === "true" ){
     console.log(' post ...');
-    axios.post(
+    await axios.post(
       `${payload_url}?wait=true`,
       postPayload,
       {
